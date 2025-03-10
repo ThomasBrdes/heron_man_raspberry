@@ -104,7 +104,7 @@ class VideoUtils(object):
 
             # if the first frame is None, initialize it
             if firstFrame is None:
-                print "Waiting for video to adjust..."
+                print ("Waiting for video to adjust...")
                 if tempFrame is None:
                     tempFrame = gray
                     continue
@@ -114,7 +114,7 @@ class VideoUtils(object):
                     tst = cv2.threshold(delta, 5, 255, cv2.THRESH_BINARY)[1]
                     tst = cv2.dilate(tst, None, iterations=2)
                     if count > 30:
-                        print "Done.\n Waiting for motion."
+                        print ("Done.\n Waiting for motion.")
                         if not cv2.countNonZero(tst) > 0:
                             firstFrame = gray
                         else:
@@ -197,15 +197,15 @@ class Turret(object):
         Waits for input to calibrate the turret's axis
         :return:
         """
-        print "Please calibrate the tilt of the gun so that it is level. Commands: (w) moves up, " \
-              "(s) moves down. Press (enter) to finish.\n"
+        print ("Please calibrate the tilt of the gun so that it is level. Commands: (w) moves up, " \
+              "(s) moves down. Press (enter) to finish.\n")
         self.__calibrate_y_axis()
 
-        print "Please calibrate the yaw of the gun so that it aligns with the camera. Commands: (a) moves left, " \
-              "(d) moves right. Press (enter) to finish.\n"
+        print ("Please calibrate the yaw of the gun so that it aligns with the camera. Commands: (a) moves left, " \
+              "(d) moves right. Press (enter) to finish.\n")
         self.__calibrate_x_axis()
 
-        print "Calibration finished."
+        print ("Calibration finished.")
 
     def __calibrate_x_axis(self):
         """
@@ -233,7 +233,7 @@ class Turret(object):
                         break
 
             except (KeyboardInterrupt, EOFError):
-                print "Error: Unable to calibrate turret. Exiting..."
+                print ("Error: Unable to calibrate turret. Exiting...")
                 sys.exit(1)
 
     def __calibrate_y_axis(self):
@@ -262,7 +262,7 @@ class Turret(object):
                         break
 
             except (KeyboardInterrupt, EOFError):
-                print "Error: Unable to calibrate turret. Exiting..."
+                print ("Error: Unable to calibrate turret. Exiting...")
                 sys.exit(1)
 
     def motion_detection(self, show_video=False):
@@ -280,8 +280,8 @@ class Turret(object):
         target_steps_x = (2*MAX_STEPS_X * (x + w / 2) / v_w) - MAX_STEPS_X
         target_steps_y = (2*MAX_STEPS_Y*(y+h/2) / v_h) - MAX_STEPS_Y
 
-        print "x: %s, y: %s" % (str(target_steps_x), str(target_steps_y))
-        print "current x: %s, current y: %s" % (str(self.current_x_steps), str(self.current_y_steps))
+        print("x: %s, y: %s" % (str(target_steps_x), str(target_steps_y)))
+        print("current x: %s, current y: %s" % (str(self.current_x_steps), str(self.current_y_steps)))
 
         t_x = threading.Thread()
         t_y = threading.Thread()
@@ -337,7 +337,7 @@ class Turret(object):
         Turret.move_forward(self.sm_x, 1)
         Turret.move_forward(self.sm_y, 1)
 
-        print 'Commands: Pivot with (a) and (d). Tilt with (w) and (s). Exit with (q)\n'
+        print('Commands: Pivot with (a) and (d). Tilt with (w) and (s). Exit with (q)\n')
         with raw_mode(sys.stdin):
             try:
                 while True:
@@ -423,4 +423,4 @@ if __name__ == "__main__":
             thread.start_new_thread(VideoUtils.live_video, ())
         t.interactive()
     else:
-        print "Unknown input mode. Please choose a number (1) or (2)"
+        print ("Unknown input mode. Please choose a number (1) or (2)")
